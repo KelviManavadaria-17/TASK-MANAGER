@@ -1,3 +1,6 @@
+<?php
+include("config/constants.php");
+?>
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -36,21 +39,38 @@
 
 
 <?php
+
 if(isset($_POST['save']))
 {
     $list_name = $_POST['list_name'];
     $list_description=$_POST['list_description'];
     // connect database
-
+    $db = mysqli_connect(LOCALHOST,DB_USERNAME,DB_PASSWORD) or die("ERROR OCCURED");
     
-    if(!empty($list_name))
+     $db_connect=mysqli_select_db($db,DB_TABLENAME);
+    //check if database is connected successfully
+    // if($db_connect==true)
+    // {
+    //     echo "databse connected";
+    // } 
+
+
+    //query to put in database
+    $sql = "INSERT INTO tdl_list (list_name,list_description) VALUES ('$list_name','$list_description')";
+    $result = mysqli_query($db,$sql);
+     
+    if($result==true)
     {
-           SELECT * tbl_list;
+        // redirect to manage page
+        header( "task_manager/manager.php");
     }
     else
     {
-        echo "PLEASE ENTER LIST NAME";
+        // redirect to same page
     }
+
+
+    
 }
 
 ?>
