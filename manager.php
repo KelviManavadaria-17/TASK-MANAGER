@@ -27,19 +27,25 @@ include("config/constants.php");
                 }
                 if(isset($_SESSION['delete']))
                 {
-                    // display message for list added
+                    // display message for list deleted successfully
                     echo $_SESSION['delete'];
                     //session end
                     unset($_SESSION['delete']);
                 }
                 if(isset($_SESSION['delete_fail']))
                 {
-                    // display message for list added
+                    // display message for list deletion fail
                     echo $_SESSION['delete_fail'];
                     //session end
                     unset($_SESSION['delete_fail']);
                 }
-               
+                if(isset($_SESSION['update']))
+                {
+                    // display message for list update
+                    echo $_SESSION['update'];
+                    //session end
+                    unset($_SESSION['update']);
+                }
             ?>
             
         </p>
@@ -85,7 +91,7 @@ include("config/constants.php");
                                 <td><?php echo $sr_variable++ ?></td>
                                 <td><?php echo $list_name?></td>
                                 <td>
-                                    <a href="#">UPDATE</a>
+                                    <a href="<?php echo LINK?>update_list.php?list_id=<?php echo $list_id?>">UPDATE</a>
                                     <a href="<?php echo LINK?>delete_list.php?list_id=<?php echo $list_id?>">DELETE</a>
 
                                 </td>
