@@ -11,16 +11,32 @@ include("config/constants.php");
 </head>
 <body>
        <h1>Tasks Manager</h1>
-       <a href="index.php">HOME</a>
-       <a href="manager.php">MANAGE LIST</a>
+       <a href="<?php echo LINK?>index.php">HOME</a>
+       <a href="<?php echo LINK?>manager.php">MANAGE LIST</a>
 
       <h3>ADD LIST PAGE</h3>
+        <!-- TO DISPLAY MESSAGE -->
+        <p>
+            <?php
+                if(isset($_SESSION['add_fail']))
+                {
+                    // display message for fail
+                    echo $_SESSION['add_fail'];
+                    //session end
+                    unset($_SESSION['add_fail']);
+                }
+               
+            ?>
+            
+        </p>
+
+
        <!-- form to add list -->
        <form action="" method="POST">
            <table>
                 <tr>
                     <td>LIST NAME</td>
-                    <td><input type="text" name="list_name"placeholder="Type list name"></td>
+                    <td><input type="text" name="list_name"placeholder="Type list name" required></td>
                   
                 </tr>
                 <tr>
@@ -61,12 +77,20 @@ if(isset($_POST['save']))
      
     if($result==true)
     {
+         // create a session to dispaly message
+         $_SESSION['add']="LIST ADDED SUCCESSFULLY";
+        
         // redirect to manage page
-        header( "task_manager/manager.php");
+        header('LOCATION:'.LINK."manager.php");
+       
     }
     else
     {
+        // create a session to dispaly message
+        $_SESSION['add_fail']="LIST FAILED TO ADDED";
         // redirect to same page
+        header('LOCATION:'. LINK."add-list.php");
+
     }
 
 
