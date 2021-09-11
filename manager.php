@@ -25,6 +25,20 @@ include("config/constants.php");
                     //session end
                     unset($_SESSION['add']);
                 }
+                if(isset($_SESSION['delete']))
+                {
+                    // display message for list added
+                    echo $_SESSION['delete'];
+                    //session end
+                    unset($_SESSION['delete']);
+                }
+                if(isset($_SESSION['delete_fail']))
+                {
+                    // display message for list added
+                    echo $_SESSION['delete_fail'];
+                    //session end
+                    unset($_SESSION['delete_fail']);
+                }
                
             ?>
             
@@ -72,7 +86,7 @@ include("config/constants.php");
                                 <td><?php echo $list_name?></td>
                                 <td>
                                     <a href="#">UPDATE</a>
-                                    <a href="#">DELETE</a>
+                                    <a href="<?php echo LINK?>delete_list.php?list_id=<?php echo $list_id?>">DELETE</a>
 
                                 </td>
                             </tr>
