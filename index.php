@@ -12,7 +12,7 @@ include("config/constants.php");
 <body>
     <h1>Tasks Manager</h1>
    
-<div class="header">
+   <div class="header">
     <a href="<?php echo LINK?>index.php">HOME</a>
     <a href="#">TO DO</a>
     <a href="#">DOING</a>
@@ -21,7 +21,7 @@ include("config/constants.php");
 </div>
     <br>
     <br>
-    <button>ADD TASK</button>
+    <a href="<?php echo LINK?>add_task.php">ADD TASK</a>
     <br>
     <br>
 <div class="all-task">
