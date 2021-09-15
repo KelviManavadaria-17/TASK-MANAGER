@@ -31,6 +31,27 @@ include("config/constants.php");
                     //session end
                     unset($_SESSION['add_task']);
                 }
+                if(isset($_SESSION['delete_task']))
+                {
+                    // display message for task deleted successfully
+                    echo $_SESSION['delete_task'];
+                    //session end
+                    unset($_SESSION['delete_task']);
+                }
+                if(isset($_SESSION['delete_fail_task']))
+                {
+                    // display message for task deletion fail
+                    echo $_SESSION['delete_fail_task'];
+                    //session end
+                    unset($_SESSION['delete_fail_task']);
+                }
+                if(isset($_SESSION['update_task']))
+                {
+                    // display message for task update
+                    echo $_SESSION['update_task'];
+                    //session end
+                    unset($_SESSION['update_task']);
+                }
                
             ?>
             
@@ -80,8 +101,8 @@ include("config/constants.php");
 
 
                                 <td>
-                                    <a href="#">UPDATE</a>
-                                    <a href="#">DELETE</a>
+                                    <a href="<?php echo LINK?>update_task.php?list_id=<?php echo $task_id?>">UPDATE</a>
+                                    <a href="<?php echo LINK?>delete_task.php?list_id=<?php echo $task_id?>">DELETE</a>
 
                                 </td>
                             </tr>
@@ -106,17 +127,7 @@ include("config/constants.php");
     
     
     ?>
-    <tr>
-    <td>1.</td>
-    <td>DESIGN A WEBSITE</td>
-    <td>MEDIUM</td>
-    <td>23/9/2021</td>
-    <td>
-        <a href="#">UPDATE</a>
-        <a href="#">DELETE</a>
-
-    </td>
-    </tr>
+    
     </table>
 
 </div>

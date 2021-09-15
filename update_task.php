@@ -1,42 +1,67 @@
 <?php
+//connect constant file
 include("config/constants.php");
 
+if(isset($_GET['task_id']))
+{
+      // connect database
+    $db = mysqli_connect(LOCALHOST,DB_USERNAME,DB_PASSWORD) or die("ERROR OCCURED");
+    $db_connect=mysqli_select_db($db,DB_TABLENAME);
+    $task_id =$_GET['tasks_id'];
+    $sql = "SELECT * FROM tdl_tasks WHERE  task_id = '$task_id'";
+    //execute query
+    $result = mysqli_query($db,$sql);
+    if($result==true)
+    {
+        //get value from user
+        $row = mysqli_fetch_assoc($result);
+        //to check whwteher it is correct or not
+        //print_r($row);
+        $task_id = $rows['task_id'];
+        $task_name = $rows['task_name'];
+        $task_description = $rows['task_description'];
+        $list_id	 = $rows['list_id	'];
+        $priority = $rows['priority'];
+        $deadline = $rows['deadline'];
+
+    }
+    else
+    {
+        
+        // head to the index page
+        header('LOCATION:'. LINK."index.php");
+
+    }
+
+}
+else {
+    
+}
 ?>
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>ADD TASK</title>
-</head>
-<body>
-    <h1>Tasks Manager</h1>
-    <a href="<?php echo LINK?>index.php">HOME</a>
-    <h3>ADD TASK PAGE</h3>
-    <!-- TO DISPLAY MESSAGE -->
-    <p>
-            <?php
-                if(isset($_SESSION['add_fail_task']))
-                {
-                    // display message for fail
-                    echo $_SESSION['add_fail_task'];
-                    //session end
-                    unset($_SESSION['add_fail_task']);
-                }
-               
-            ?>
-            
-        </p>
-    <form action="" method="POST">
-        <table>
-            <tr>
+<html>
+<h1>Tasks Manager</h1>
+       <a href="<?php echo LINK?>index.php">HOME</a>
+       <a href="<?php echo LINK?>manager.php">MANAGE LIST</a>
+
+      <h3>UPDATE TASK PAGE</h3>
+      <?php
+         if(isset($_SESSION['update_fail_task']))
+         {
+             // display message for task updated fail
+             echo $_SESSION['update_fail_task'];
+             //session end
+             unset($_SESSION['update_fail_task']);
+         }
+      ?>
+      <form action="" method="POST">
+           <table>
+           <tr>
                 <td>TASK NAME</td>
-                <td> <input type="text" name="task_name" palceholder="task_name"></td>
+                <td> <input type="text" name="task_name" palceholder="task_name" value="<?php echo $task_name?>"></td>
             </tr>
             <tr>
                     <td>TASK DESCRIPTION</td>
-                    <td><textarea name="task_description" id="" cols="30" rows="5" placeholder="Type task descrption"></textarea></td>
+                    <td><textarea name="task_description" id="" cols="30" rows="5" placeholder="Type task descrption"><?php echo $task_description ?> </textarea></td>
             </tr>
              <tr>
                  <td>SELECT LIST</td>
@@ -102,58 +127,44 @@ include("config/constants.php");
                  <tr><input type="date" name="deadline" id=""></tr>
              </tr>
              <tr>
-                 <td><input type="submit" name = "submit"value="SAVE"></td>
+                 <td><input type="submit" name = "update"value="UPDATE"></td>
              </tr>
-        </table>
-    </form>
-</body>
+           </table>
+       </form>
 </html>
-
 
 
 <?php
 
-if(isset($_POST['submit']))
+if(isset($_POST['update']))
 {
+    //get the updated values
     $task_name = $_POST['task_name'];
     $task_description=$_POST['task_description'];
     $list_id=$_POST['list_options'];
     $priority = $_POST['priority'];
     $deadline = $_POST['deadline'];
-    //connect database
-    $conn2 = mysqli_connect(LOCALHOST,DB_USERNAME,DB_PASSWORD) or die("error");
-    //select database
-    $select2=mysqli_select_db($conn2,DB_TABLENAME ) or die("error");
-
-    $sql2="INSERT INTO tdl_tasks (task_name,task_description,list_id,priority,deadline) VALUES ('$task_name','$task_description','$list_options','$priority','$deadline')";
-    
-    $executee = mysqli_query($conn2,$sql2);
-
-    if($executee==true)
+    $conn2 = mysqli_connect(LOCALHOST,DB_USERNAME,DB_PASSWORD) or die("ERROR OCCURED");
+    $db_conn2 = mysqli_select_db($conn2,DB_TABLENAME);
+    $update_sql = "UPDATE tdl_tasks SET
+    task_name = '$task_name',
+    task_description = '$task_description',
+    list_id = '$list_id',
+    priority = '$priority',
+    deadline = '$deadline',
+    WHERE task_id = '$task_id'";
+    $ans = mysqli_query($conn2,$update_sql);
+    if($ans == true)
     {
-        $_SESSION['add_task']="LIST ADDED SUCCESSFULLY";
-        
-        // redirect to home page
-        header('LOCATION:'.LINK."index.php");
-       
+        $_SESSION['update_task']="TASK UPDATED SUCCESSFULLY";
+         header('LOCATION:'. LINK."index.php");
 
     }
     else
     {
-         // create a session to dispaly message
-         $_SESSION['add_fail_task']="LIST FAILED TO ADDED";
-         // redirect to same page
-         header('LOCATION:'. LINK."add_task.php");
+        $_SESSION['update_fail_task']="TASK UPDATION  FAILED";
+        header('LOCATION:'. LINK."update_task.php".list_id);
     }
-
-    
-
-
-
-
-
-
-    
 }
 
 ?>
