@@ -41,7 +41,6 @@ include("config/constants.php");
              <tr>
                  <td>SELECT LIST</td>
                  <td>
-                 
                      <select name="list_options" id="">
                     
                          
@@ -55,7 +54,7 @@ include("config/constants.php");
                             if($result==true)
                             {
                                   // count number of rows
-                                  $count_rows = mysqli_count_rows($db);
+                                  $count_rows = mysqli_num_rows($result);
                                   if($count_rows>0)
                                   {
                                        // display all rows
@@ -102,7 +101,7 @@ include("config/constants.php");
                  <tr><input type="date" name="deadline" id=""></tr>
              </tr>
              <tr>
-                 <td><input type="submit" name = "submit"value="SAVE"></td>
+                 <td><input type="submit" name = "submit" value="SAVE"></td>
              </tr>
         </table>
     </form>
@@ -112,7 +111,7 @@ include("config/constants.php");
 
 
 <?php
-
+  
 if(isset($_POST['submit']))
 {
     $task_name = $_POST['task_name'];

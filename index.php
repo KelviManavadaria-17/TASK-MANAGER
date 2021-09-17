@@ -14,9 +14,32 @@ include("config/constants.php");
    
    <div class="header">
     <a href="<?php echo LINK?>index.php">HOME</a>
-    <a href="#">TO DO</a>
-    <a href="#">DOING</a>
-    <a href="#">DONE</a>
+    
+    <?php
+    // displaying menu list from data list
+    $conn2 = mysqli_connect(LOCALHOST,DB_USERNAME,DB_PASSWORD) or die("erroe occured");
+    $db_select2 = mysqli_select_db($conn2 , DB_TABLENAME) or die("error occured");
+    $sql1 = "SELECT * FROM tdl_list";
+    $ans = mysqli_query($conn2,$sql1);
+    if($ans == true)
+    {
+        //display list
+        while($row2= mysqli_fetch_assoc($ans))
+        {
+            $list_id = $row2['list_id'];
+            $list_name = $row2['list_name'];
+            ?>
+              <a href="<?php echo LINK ?>list_task.php?list_id=<?php echo $list_id?>"><?php echo $list_name?></a>
+            <?php
+
+        }
+    }
+    else
+    {
+
+    }
+    
+    ?>
     <a href="<?php echo LINK?>manager.php">MANAGE TASKS</a>
 </div>
     <br>
